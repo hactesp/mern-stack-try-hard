@@ -1,8 +1,11 @@
-POST http://localhost:5000/user
+POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-  "userName": "hacaothanh",
-  "password": "hact123"
+  "email": "test@test.com",
+  "password": "password"
 }
 
+###
+GET http://localhost:5000/authrequired
+Cookie: connect.sid	s%3A72b63c18-dbec-4a20-9393-97ff26a795e4.Gajc0c78yNsv%2B4FyqFw%2Fo0Td55FOUqDwWqFhPupGgj4;  HttpOnly
