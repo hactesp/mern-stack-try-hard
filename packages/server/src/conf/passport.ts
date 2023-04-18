@@ -2,6 +2,7 @@ import passport from 'passport';
 import {Strategy} from 'passport-local';
 import { Express } from 'express';
 import {UserModel} from "../schemas/user.schema";
+import bcrypt from "bcrypt";
 
 export function configurePassport(app: Express) {
   //configure passport.js to use the local strategy
@@ -14,7 +15,7 @@ export function configurePassport(app: Express) {
             if (!user) {
               return done(null, false, { message: 'Invalid credentials.\n' });
             }
-            if (password != user.password) {
+            if(!bcrypt.compareSync(password, user.password)) {
               return done(null, false, { message: 'Invalid credentials.\n' });
             }
             return done(null, user);

@@ -2,6 +2,7 @@ import express, {Express} from 'express';
 import {UserModel} from "./schemas/user.schema";
 import {configureHelmet, configureOther, configurePassport, configureSession, dbConnectEstablish} from "./conf";
 import passport from 'passport';
+import bcrypt from "bcrypt";
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -20,7 +21,7 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
   if (req.isAuthenticated()) {
-    res.redirect('/home-page')
+    res.send('You redirect to board')
   } else {
     res.send('You see login again')
   }
@@ -46,6 +47,7 @@ app.get('/authrequired', (req, res) => {
 })
 
 app.post('/user', async (req, res) => {
+  req.body['password'] = await bcrypt.hash(req.body['password'], 10);
   const payload = new UserModel(req.body);
   await payload.save().then(value => res.send(value)).catch((err) => res.send(err));
 });
